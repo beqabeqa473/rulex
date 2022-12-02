@@ -1,0 +1,127 @@
+# RUSSIAN PRONUNCIATION DICTIONARY
+
+Read this document in [Russian.](README.ru.md)
+
+Russian pronunciation dictionary RuLex is aimed primarily for use
+together with the Russian TTS engine Ru_tts. When it is installed you
+can instruct Ru_tts to use the dictionary by the command line switch
+"-s /usr/local/share/freespeech/rulex.db".
+
+
+The lexical database consists of two dictionaries and three sets of
+rules. Subdirectory data contains source files of all these datasets
+along with the test dictionary in source format. Dictionary source
+format is as follows:
+
+The dictionary source must be represented by a text file in koi8-r.
+Each entry occupies exactly one line consisting of two fields
+separated by space. The first field contains word itself and is used
+as a key. The second field tells how this word should be
+uttered. Stresses are denoted by the "+" sign following the stressed
+letter. In such a manner you can use the "=" sign as well to denote
+so-called weak stresses where it is appropriate, for instance, in some
+complex words. In the key field only lowercase Russian letters are
+allowed. In the utterance field additional characters "+", "=" and "-"
+may be used as well. The "-" sign can serve as a separator in some
+complex words.
+
+For Ru_tts synthesizer could use the lexical database it must be
+compiled. This is as simple as
+
+make db
+
+The file lexicon containing the lexical database will be created in
+the data subdirectory as a result of these manipulations.
+
+To install lexical database issue the command:
+
+make install-db
+
+Of course, this command should be performed with the superuser
+privileges.
+
+To recompile the lexholder utility issue the command:
+
+make lexholder
+
+To compile and install all stuff issue command:
+
+make install
+
+Of course, this command requires superuser privileges.
+
+Along with the lexical database itself the package includes some
+supporting tools, such as utility lexholder-ru, which allows updating
+and extending the lexical database as well as extracting the database
+content in textual form. This utility can be used either from command
+line or from a shell-script. For information about it's using try
+
+lexholder-ru -h
+
+Or consult README.ru for the detailed description in Russian. Anyway, I
+think, it would unlikely be useful for those who do not speak Russian.
+
+Note 1. If you wish Ru_tts to make use of the lexical database created
+by the lexholder-ru utility, they both must use the same database
+support library. The version also makes sense. Usually it is expected
+that the new version library routines can read the files created by
+the ones of older versions, but it is not necessarily true. Detailed
+information about used libraries for dynamically linked binaries can
+be obtained by the "ldd" command.
+
+Note 2. The lexical data storage format was changed in RuLex version
+2.0. The new format can not be used by Ru_tts older than 2.0.
+
+Note 3. The lexholder-ru utility does not free disk space when
+deleting and modifying records in the database. Moreover, the database
+size can grow dramatically during multiple updates. More compact
+representation in this case can be achieved by the following steps:
+
+1) Clean the database.
+
+2) Extract all the datasets.
+
+3) Recreate the database.
+
+
+## A little history
+
+This dictionary was initially created as an attempt to provide some
+stressing capability to the Ru_tts speech engine. My search through
+the internet for some Russian stress dictionary had no practical
+result. But then I've remembered that one of freely distributed
+versions of Mueller's English-Russian dictionary actually contains the
+desired information. I've extracted this stuff and got stress
+dictionary about 60000 entries. It was not so much, but, anyway, I
+already could see how the idea works. It became clear soon that there
+are many special cases: some words should not be stressed at all and
+the dictionary should contain not only stressing information. So, now
+it is positioned as a pronunciation dictionary (not only stressing)
+and it had grown dramatically since that time.
+
+At some point I decided to extend the plain dictionary by some rules
+allowing to guess pronunciation for some implicit word forms as well
+as for the words where it can be done by formal criterions. As a
+result, overall database size was greatly reduced, but the database
+itself became more informative. And the old pronunciation dictionary
+now serves for the database testing.
+
+
+Now I'd like to thank all who helped me in this work:
+
+The authors and publishers of the electronic version of Mueller's
+dictionary with stress information, from which I obtained the initial
+portion of stressed words;
+
+Ivanov Guennady and my sister Tatyana, who had accomplished a lot of
+hard work fixing and extending the dictionary at the beginning time;
+
+Serge Fleytin, who provided me a bunch of new entries;
+
+Dmitry Paduchih, who not only provided me new entries for the
+dictionary, but had also developed the Emacs extension helping to
+generate ones. This extension is included into the package and
+Dmitry's comments about it are at the end of this file (in the Russian
+section).
+
+Igor B. Poretsky <poretsky@mlbox.ru>
